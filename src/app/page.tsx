@@ -3,6 +3,6 @@ import { buttonGroupVariants } from "@/components/ui/button-group"
 
 export default function Home() {
   return (
-    <Button variant= "seshadev">Click me</Button>
+    <Button variant= "default">Click me</Button>
   )
 }
