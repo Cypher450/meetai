@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import {
@@ -29,23 +29,43 @@ const signInFormSchema = z.object({
 });
 
 export const SignInView = () => {
-  const router = useRouter();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+
+
+  const onSocialSignIn = (provider: 'google' | 'github') => {
+    setError(null);
+    setPending(true);
+
+    authClient.signIn.social({
+        provider: provider,
+        callbackURL: '/',
+      },
+      {
+        onSuccess: () => {
+          setPending(false);
+        },
+        onError: ({ error }) => {
+          setPending(false);
+          setError(error.message);
+        }
+      });
+  };
+
   const onSubmit = (data: z.infer<typeof signInFormSchema>) => {
     setError(null);
-    setPending(false);
+    setPending(true);
 
     authClient.signIn.email(
       {
         email: data.email,
         password: data.password,
+        callbackURL: "/",
       },
       {
         onSuccess: () => {
           setPending(false);
-          router.push("/");
         },
         onError: ({ error }) => {
           setPending(false);
@@ -71,7 +91,7 @@ export const SignInView = () => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="p-6 md:p-8">
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col items-center text-center">
-                  <h1 className="text-2xl fon-bold">Welcome Back</h1>
+                  <h1 className="text-2xl font-bold">Welcome Back</h1>
                   <p className="text-muted-foreground text-balance">
                     Login to your Account
                   </p>
@@ -122,17 +142,29 @@ export const SignInView = () => {
                 <Button className="w-full" type="submit" disabled={pending}>
                   Sign In
                 </Button>
-                <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after-flex after:items-cewnter after:border-t">
+                <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
                   <span className="bg-background px-2 z-10 relative">
                     Or continue with
                   </span>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  <Button disabled={pending} variant="outline" className="w-full" type="button">
-                    Google
+                  <Button
+                    disabled={pending}
+                    onClick={() => onSocialSignIn("google")}
+                    variant="outline"
+                    className="w-full"
+                    type="button"
+                  >
+                    <FaGoogle className="mr-2" />
                   </Button>
-                  <Button disabled={pending} variant="outline" className="w-full" type="button">
-                    Github
+                  <Button
+                    disabled={pending}
+                    onClick={() => onSocialSignIn("github")}
+                    variant="outline"
+                    className="w-full"
+                    type="button"
+                  >
+                    <FaGithub className="mr-2" />
                   </Button>
                 </div>
                 <div className="text-center text-sm">
@@ -149,7 +181,7 @@ export const SignInView = () => {
           </Form>
           <div className="bg-radial from-green-700 to-green-800 relative hidden md:flex flex-col gap-y-4 items-center justify-center">
             <img src="/logo.svg" alt="Image" className="h-[92px] w-[92px]" />
-            <p className="text-2xl font semibold text-white">Meet.AI</p>
+            <p className="text-2xl font-semibold text-white">Meet.AI</p>
           </div>
         </CardContent>
       </Card>

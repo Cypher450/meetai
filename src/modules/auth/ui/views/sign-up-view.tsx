@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertTitle } from "@/components/ui/alert";
@@ -170,7 +171,7 @@ export const SignUpView = () => {
                 )}
 
                 <Button className="w-full" type="submit" disabled={pending}>
-                  Sign In
+                  Sign Up
                 </Button>
                 <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after-flex after:items-cewnter after:border-t">
                   <span className="bg-background px-2 z-10 relative">
@@ -180,19 +181,29 @@ export const SignUpView = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <Button
                     disabled={pending}
+                    onClick={() => {
+                      authClient.signIn.social({
+                        provider: "google",
+                      });
+                    }}
                     variant="outline"
                     className="w-full"
                     type="button"
                   >
-                    Google
+                    <FaGoogle className="mr-2" />Google
                   </Button>
                   <Button
                     disabled={pending}
+                    onClick={() => {
+                      authClient.signIn.social({
+                        provider: "github",
+                      });
+                    }}
                     variant="outline"
                     className="w-full"
                     type="button"
                   >
-                    Github
+                    <FaGithub className="mr-2" />Github
                   </Button>
                 </div>
                 <div className="text-center text-sm">
