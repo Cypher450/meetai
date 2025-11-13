@@ -11,6 +11,11 @@ export const auth = betterAuth({
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+      mapProfileToUser: (profile) => ({
+        name: profile.name,
+        email: profile.email,
+        image: profile.avatar_url,
+      }),
     },
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
