@@ -16,7 +16,7 @@ export const DashboardUserButton = () => {
   const { data, isPending } = authClient.useSession();
   const router = useRouter();
 
-  const handleSignOut = async () => {
+  const handleSignOut = () => {
     authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
@@ -63,11 +63,9 @@ export const DashboardUserButton = () => {
           Billing &amp; Plans
           <CreditCardIcon className="size-4 ml-auto opacity-50" />        
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleSignOut}
-          className="cursor-pointer flex items-center justify-between" 
-          onSelect={() => {
-            authClient.signOut();
-          }}
+        <DropdownMenuItem
+          onClick={handleSignOut}
+          className="cursor-pointer flex items-center justify-between"
         >
           Log Out
           <LogOutIcon className="size-4 ml-auto opacity-50" />
