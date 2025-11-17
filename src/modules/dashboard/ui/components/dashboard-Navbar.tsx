@@ -3,8 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/components/ui/sidebar";
 import { PanelLeftIcon, PanelLeftCloseIcon, SearchIcon} from "lucide-react";
-// Update the import path to the correct location of DashboardCommand
-import { DashboardCommand } from "@/modules/dashboard/ui/components/DashboardCommand";
+import { DashboardCommand } from "@/modules/dashboard/ui/components/dashboard-command";
 import { useEffect, useState } from "react";
 
 
