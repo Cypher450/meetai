@@ -28,7 +28,7 @@ const firstMenuItems = [
   {
     icons: BotIcon,
     label: "AI Assistants",
-    href: "/assistants",
+    href: "/agents",
   },
 ];
 
